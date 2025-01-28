@@ -1,28 +1,17 @@
-add_executable(TestHand TestHand.cpp 
-        ${CMAKE_SOURCE_DIR}/src/robot_hand/Message.cpp
-        ${CMAKE_SOURCE_DIR}/src/robot_hand/Finger.cpp
-        ${CMAKE_SOURCE_DIR}/src/robot_hand/Hand.cpp)
+file(GLOB TEST_SOURCES "*.cpp")
 
-add_executable(TestFinger TestFinger.cpp ${CMAKE_SOURCE_DIR}/src/robot_hand/Finger.cpp)
-
-target_link_libraries(TestHand gtest gmock gtest_main pthread)
-target_link_libraries(TestFinger gtest gmock gtest_main pthread)
-
-target_include_directories(TestHand PRIVATE
-    ${CMAKE_SOURCE_DIR}/src/robot_hand       
-    ${CMAKE_SOURCE_DIR}/amp-embedded-infra-lib/hal/interfaces
-    ${CMAKE_SOURCE_DIR}/src/robot_hand/tests/mocks
+add_executable(runRobotHandTests ${TEST_SOURCES}
+    ${CMAKE_SOURCE_DIR}/src/robot_hand/Finger.cpp
 )
 
-target_include_directories(TestFinger PRIVATE
+target_include_directories(runRobotHandTests PRIVATE
     ${CMAKE_SOURCE_DIR}/src/robot_hand
     ${CMAKE_SOURCE_DIR}/amp-embedded-infra-lib/hal/interfaces
     ${CMAKE_SOURCE_DIR}/src/robot_hand/tests/mocks
 )
 
-# Enable testing
+target_link_libraries(runRobotHandTests gtest gmock gtest_main pthread)
+
 enable_testing()
 
-# Register your tests with CTest
-add_test(NAME TestHand COMMAND TestHand)
-add_test(NAME TestFinger COMMAND TestFinger)
+gtest_discover_tests(runRobotHandTests)
