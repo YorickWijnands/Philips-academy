@@ -1,0 +1,16 @@
+{
+  "name": "Philips Academy",
+  "image": "ghcr.io/philips-software/amp-devcontainer:latest",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cmake-tools",
+        "ms-vscode.cpptools"
+      ],
+      "settings": {
+        "C_Cpp.intelliSenseEngine": "default",
+        "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
+      }
+      }
+    }
+  }
