@@ -40,43 +40,43 @@
 
 ### Build the Project
 
-1. **Select Target**: After the dev container is set up, select the target `stm32f429zi`.
+1. **Select Target**: After the dev container is set up, select the target `stm32f429zi` (or another microcontroller) for building the project for the microcontroller.
 2. **Build the Project**: Use the build command in Visual Studio Code to build the project.
 
-## Adding a New Project
+### Run Tests
 
-To add a new project under [src](http://_vscodecontentref_/1), follow these steps:
+1. **Select Configuration for Host Tooling and Tests**: Select the configuration for host tooling and tests to build and run tests on your local PC.
+2. **Build the Tests**: Use the build command in Visual Studio Code to build the tests.
+3. **Run the Tests**: Use the command palette (`Ctrl+Shift+P`) and select `CMake: Run CTest` to run the tests.
 
-1. **Create a New Directory**: Create a new directory under [src](http://_vscodecontentref_/2) for your project.
+### Test Directory
+
+The [tests](http://_vscodecontentref_/1) directory contains subdirectories for each project under [src](http://_vscodecontentref_/2). Each subdirectory includes test files and a [CMakeLists.txt](http://_vscodecontentref_/3) file to define the test build configuration. For example, the `tests/move_finger` directory contains tests for the `move_finger` project under [src](http://_vscodecontentref_/4).
+
+To add a new test:
+
+1. **Create a New Directory**: Create a new directory under [tests](http://_vscodecontentref_/5) for your project.
     ```sh
-    mkdir src/<new_project>
+    mkdir tests/<new_project>
     ```
 
-2. **Add Source Files**: Add your source files (`.cpp` and `.hpp`) to the new directory.
+2. **Add Test Files**: Add your test files (`.cpp`) to the new directory.
 
-3. **Create CMakeLists.txt**: Create a [CMakeLists.txt](http://_vscodecontentref_/3) file in the new directory with the following content:
+3. **Create CMakeLists.txt**: Create a [CMakeLists.txt](http://_vscodecontentref_/6) file in the new directory with the following content:
     ```cmake
-    # filepath: /workspaces/Philips-academy/src/<new_project>/CMakeLists.txt
+    # filepath: /workspaces/Philips-academy/tests/<new_project>/CMakeLists.txt
 
-    # Automatically add all .cpp files in the current directory
-    file(GLOB SOURCES "*.cpp")
+    # Get all test files
+    file(GLOB TEST_SOURCES "*.cpp")
 
-    # Add the source files to the executable
-    add_executable(${PROJECT_NAME} ${SOURCES})
+    # Add executable for tests
+    add_executable(run<NewProject>Tests ${TEST_SOURCES})
 
-    emil_build_for(${PROJECT_NAME} TARGET_MCU_VENDOR st PREREQUISITE_BOOL HALST_BUILD_EXAMPLES)
+    # Link Google Test libraries and the necessary project libraries
+    target_link_libraries(run<NewProject>Tests gtest gtest_main services.util hal_st.instantiations)
 
-    target_compile_definitions(${PROJECT_NAME} PUBLIC
-        NUCLEO=Nucleo144Ui
-    )
-
-    target_link_libraries(${PROJECT_NAME} PRIVATE
-        services.util
-        hal_st.instantiations
-    )
-
-    halst_target_default_linker_scripts(${PROJECT_NAME})
-    halst_target_default_init(${PROJECT_NAME})
-
-    emil_generate_artifacts(TARGET ${PROJECT_NAME} LST MAP BIN HEX)
+    # Add test target
+    gtest_discover_tests(run<NewProject>Tests)
     ```
+
+By following these steps, you can build your main project for the STM32F429ZI microcontroller and run your tests on your local PC. The [CMakePresets.json](http://_vscodecontentref_/7) helps manage different build configurations, making it easy to switch between building for the microcontroller and running tests locally.
