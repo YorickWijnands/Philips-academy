@@ -6,6 +6,7 @@
 
 1. **Install Visual Studio Code**: Download and install [Visual Studio Code](https://code.visualstudio.com/).
 2. **Install WSL and Ubuntu**:
+    - Install Ubuntu from the Microsoft Store.
     - Open a terminal and run the following commands to enable WSL and Virtual Machine Platform:
       ```sh
       dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
