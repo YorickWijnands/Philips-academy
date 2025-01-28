@@ -13,5 +13,12 @@ add_subdirectory(libs/amp-embedded-infra-lib)
 add_subdirectory(libs/amp-hal-st)
 add_subdirectory(src)
 
+# Add Google Test and enable testing only for the host system
+if(NOT CMAKE_CROSSCOMPILING)
+    add_subdirectory(libs/googletest)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
+
 emil_clangformat_directories(stm32-devcontainer-template DIRECTORIES ./src)
 emil_folderize_all_targets()
